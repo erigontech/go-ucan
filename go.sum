@@ -63,6 +63,8 @@ github.com/ucan-wg/go-did-it v1.1.1 h1:YrVCO12q5tt5NUcFPjjngNrBCAdtQ+WrKKBydFlvv
 github.com/ucan-wg/go-did-it v1.1.1/go.mod h1:iOvUiE8fiXzg0LlgV28lAWdrFD/VyGxkt6ag41SGZLM=
 github.com/ucan-wg/go-varsig v1.0.0 h1:Hrc437Zg+B5Eoajg+qZQZI3Q3ocPyjlnp3/Bz9ZnlWw=
 github.com/ucan-wg/go-varsig v1.0.0/go.mod h1:Sakln6IPooDPH+ClQ0VvR09TuwUhHcfLqcPiPkMZGh0=
+github.com/ucan-wg/go-varsig v1.0.1 h1:h6QCUsqzabaep1sInv/WNSa2lF+24wDlbAk8Tbq6NGk=
+github.com/ucan-wg/go-varsig v1.0.1/go.mod h1:Sakln6IPooDPH+ClQ0VvR09TuwUhHcfLqcPiPkMZGh0=
 github.com/urfave/cli v1.22.10/go.mod h1:Gos4lmkARVdJ6EkW0WaNv/tZAAMe9V7XWyB60NtXRu0=
 github.com/warpfork/go-wish v0.0.0-20220906213052-39a1cc7a02d0 h1:GDDkbFiaK8jsSDJfjId/PEGEShv6ugrt4kYsC5UIDaQ=
 github.com/warpfork/go-wish v0.0.0-20220906213052-39a1cc7a02d0/go.mod h1:x6AKhvSSexNrVSrViXSHUEbICjmGXhtgABaHIySUSGw=

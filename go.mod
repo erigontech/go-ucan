@@ -12,7 +12,7 @@ require (
 	github.com/multiformats/go-varint v0.1.0
 	github.com/stretchr/testify v1.10.0
 	github.com/ucan-wg/go-did-it v1.1.1
-	github.com/ucan-wg/go-varsig v1.0.0
+	github.com/ucan-wg/go-varsig v1.0.1
 	golang.org/x/crypto v0.50.0
 )
 

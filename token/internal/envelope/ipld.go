@@ -182,7 +182,7 @@ func FromIPLD[T Tokener](node datamodel.Node, resolvOpts ...did.ResolutionOption
 		return zero, err
 	}
 
-	vsig, err := varsig.Decode(info.VarsigBytes)
+	vsig, err := decodeVarsig(info.VarsigBytes)
 	if err != nil {
 		return zero, fmt.Errorf("failed to decode varsig: %w", err)
 	}

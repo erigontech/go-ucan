@@ -11,6 +11,7 @@ import (
 	"github.com/ipld/go-ipld-prime/codec/dagjson"
 	"github.com/ipld/go-ipld-prime/datamodel"
 	"github.com/ucan-wg/go-did-it"
+	"github.com/ucan-wg/go-varsig"
 
 	"github.com/ucan-wg/go-ucan/token/delegation"
 	"github.com/ucan-wg/go-ucan/token/internal/envelope"
@@ -123,4 +124,9 @@ func fromIPLD(node datamodel.Node, resolvOpts ...did.ResolutionOption) (Token, e
 	default:
 		return nil, fmt.Errorf(`unknown tag "%s"`, tag)
 	}
+}
+
+// RegisterVarsig adds a signature algorithm, beyond those go-varsig decodes, that tokens may be sealed with.
+func RegisterVarsig(alg varsig.Algorithm, decode varsig.DecodeFunc) {
+	envelope.RegisterVarsig(alg, decode)
 }
