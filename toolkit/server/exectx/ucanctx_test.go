@@ -204,7 +204,7 @@ func TestUcanCtx(t *testing.T) {
 	require.NoError(t, err)
 	cont.AddSealed(dlg2Byte)
 
-	inv, err := invocation.New(client2.DID(), cmd, service.DID(), []cid.Cid{dlg2Cid, dlg1Cid})
+	inv, err := invocation.New(client2.DID(), cmd, service.DID(), []cid.Cid{dlg1Cid, dlg2Cid})
 	require.NoError(t, err)
 	invBytes, _, err := inv.ToSealed(client2.PrivKey())
 	require.NoError(t, err)

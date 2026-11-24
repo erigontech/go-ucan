@@ -19,7 +19,11 @@ import (
 // that the TokenPayload is an invocation.
 //
 // [Tag]: https://github.com/ucan-wg/invocation#type-tag
-const Tag = "ucan/inv@1.0.0-rc.1"
+const Tag = "ucan/inv@1.0.0"
+
+// TagRC1 is the release-candidate tag, still accepted when decoding. An invocation with it lists its proofs from the
+// invoker back to the root, the reverse of 1.0.0.
+const TagRC1 = "ucan/inv@1.0.0-rc.1"
 
 //go:embed invocation.ipldsch
 var schemaBytes []byte
@@ -82,4 +86,8 @@ func (e *tokenPayloadModel) Prototype() schema.TypedPrototype {
 
 func (*tokenPayloadModel) Tag() string {
 	return Tag
+}
+
+func (*tokenPayloadModel) CompatibleTags() []string {
+	return []string{TagRC1}
 }

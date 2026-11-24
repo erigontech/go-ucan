@@ -51,8 +51,9 @@ func FromContainer(cont container.Reader) (*UcanCtx, error) {
 		meta: meta.NewMeta(),
 	}
 
-	// iterate in reverse, from the root delegation to the leaf
-	for _, c := range slices.Backward(inv.Proof()) {
+	// from the root delegation to the leaf
+	rootFirst := inv.ProofRootFirst()
+	for _, c := range rootFirst {
 		// make sure we have the delegation
 		dlg, err := cont.GetDelegation(c)
 		if errors.Is(err, delegation.ErrDelegationNotFound) {
@@ -75,7 +76,7 @@ func FromContainer(cont container.Reader) (*UcanCtx, error) {
 	// For sanity, we verify that the proofs are ordered properly. This will be checked later anyway, but it's cheap to
 	// verify here and catch an easy mistake.
 	chainTo := inv.Issuer()
-	for _, c := range inv.Proof() {
+	for _, c := range slices.Backward(rootFirst) {
 		dlg := ctx.dlgs[c]
 		if !dlg.Audience().Equal(chainTo) {
 			return nil, fmt.Errorf("proof chain is broken or not ordered correctly")
@@ -107,9 +108,7 @@ func (ctn *UcanCtx) GetDelegation(cid cid.Cid) (*delegation.Token, error) {
 
 // GetRootDelegation returns the delegation.Token at the root of the proof chain.
 func (ctn *UcanCtx) GetRootDelegation() *delegation.Token {
-	proofs := ctn.inv.Proof()
-	c := proofs[len(proofs)-1]
-	return ctn.dlgs[c]
+	return ctn.dlgs[ctn.inv.ProofRootFirst()[0]]
 }
 
 // Policies return the full set of policy statements to satisfy.

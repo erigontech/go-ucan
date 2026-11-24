@@ -84,6 +84,10 @@ func (*Example) Tag() string {
 	return exampleTag
 }
 
+func (*Example) CompatibleTags() []string {
+	return nil
+}
+
 func examplePrivKey(t *testing.T) crypto.PrivateKeySigningBytesVarsig {
 	t.Helper()
 

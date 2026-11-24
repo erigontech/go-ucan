@@ -3,6 +3,7 @@ package client
 import (
 	"iter"
 	"math"
+	"slices"
 
 	"github.com/ipfs/go-cid"
 	"github.com/ucan-wg/go-did-it"
@@ -12,6 +13,7 @@ import (
 )
 
 // FindProof find in the pool the best (shortest, smallest in bytes) chain of delegation(s) matching the given invocation parameters.
+// The chain is returned root first, the order an invocation lists its proofs in.
 // - issuer: the DID of the client, also the issuer of the invocation token
 // - cmd: the command to execute
 // - subject: the DID of the resource to operate on, also the subject (or audience if defined) of the invocation token
@@ -94,5 +96,6 @@ func FindProof(dlgs func() iter.Seq[*delegation.Bundle], issuer did.DID, cmd com
 		}
 	}
 
+	slices.Reverse(bestProof)
 	return bestProof
 }

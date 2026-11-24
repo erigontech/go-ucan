@@ -116,9 +116,9 @@ func fromIPLD(node datamodel.Node, resolvOpts ...did.ResolutionOption) (Token, e
 	}
 
 	switch tag {
-	case delegation.Tag:
+	case delegation.Tag, delegation.TagRC1:
 		return delegation.FromIPLD(node, resolvOpts...)
-	case invocation.Tag:
+	case invocation.Tag, invocation.TagRC1:
 		return invocation.FromIPLD(node, resolvOpts...)
 	default:
 		return nil, fmt.Errorf(`unknown tag "%s"`, tag)

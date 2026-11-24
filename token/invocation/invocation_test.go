@@ -96,7 +96,7 @@ func TestToken_ExecutionAllowed(t *testing.T) {
 	t.Run("fails - last (or only) delegation not root", func(t *testing.T) {
 		t.Parallel()
 
-		prf := []cid.Cid{delegationtest.TokenErinFrankCID, delegationtest.TokenDanErinCID, delegationtest.TokenCarolDanCID}
+		prf := []cid.Cid{delegationtest.TokenCarolDanCID, delegationtest.TokenDanErinCID, delegationtest.TokenErinFrankCID}
 		testFails(t, invocation.ErrLastNotRoot, didtest.PersonaFrank, delegationtest.NominalCommand, emptyArguments, prf)
 	})
 

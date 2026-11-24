@@ -64,8 +64,9 @@ func (t *Token) verifyProofs(delegations []*delegation.Token) error {
 	}
 
 	// control from the invocation to the root delegation
-	for i, dlgCid := range t.proof {
-		dlg := delegations[i]
+	leafToRoot := t.leafToRoot()
+	for _, i := range leafToRoot {
+		dlgCid, dlg := t.proof[i], delegations[i]
 
 		// The Subject of each delegation must equal the invocation's Subject (or Audience if defined). - 4f
 		if !dlg.Subject().Equal(sub) {
@@ -86,12 +87,26 @@ func (t *Token) verifyProofs(delegations []*delegation.Token) error {
 		cmd = dlg.Command()
 	}
 
-	// The last prf value must be a root delegation (have the issuer field match the Subject field) - 4e
-	if last := delegations[len(delegations)-1]; !last.Issuer().Equal(last.Subject()) {
-		return fmt.Errorf("%w: expected %s, got %s", ErrLastNotRoot, last.Subject(), last.Issuer())
+	// The root delegation must have its issuer match its Subject - 4e
+	if root := delegations[leafToRoot[len(leafToRoot)-1]]; !root.Issuer().Equal(root.Subject()) {
+		return fmt.Errorf("%w: expected %s, got %s", ErrLastNotRoot, root.Subject(), root.Issuer())
 	}
 
 	return nil
+}
+
+// leafToRoot returns the indexes of t.proof from the delegation issued to the invoker back to the root:
+// 1.0.0 lists proofs root first, 1.0.0-rc.1 leaf first.
+func (t *Token) leafToRoot() []int {
+	idx := make([]int, len(t.proof))
+	for i := range idx {
+		if t.rc1ProofOrder {
+			idx[i] = i
+		} else {
+			idx[i] = len(idx) - 1 - i
+		}
+	}
+	return idx
 }
 
 func (t *Token) verifyTimeBound(dlgs []*delegation.Token) error {
@@ -123,7 +138,7 @@ func (t *Token) verifyArgs(delegations []*delegation.Token, arguments *args.Args
 	}
 
 	policies := make(policy.Policy, 0, count)
-	for i := range t.proof {
+	for _, i := range t.leafToRoot() {
 		policies = append(policies, delegations[i].Policy()...)
 	}
 

@@ -189,6 +189,10 @@ func FromIPLD(node datamodel.Node, resolvOpts ...did.ResolutionOption) (*Token, 
 		return nil, err
 	}
 
+	if info, ierr := envelope.Inspect(node); ierr == nil && info.Tag == TagRC1 {
+		tkn.rc1ProofOrder = true
+	}
+
 	return tkn, err
 }
 

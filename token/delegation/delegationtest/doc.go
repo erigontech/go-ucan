@@ -7,7 +7,7 @@
 //
 // Delegation proof-chain names contain each didtest.Persona name in
 // order starting with the root delegation (which will always be generated
-// by Alice). This is the opposite of the list of cic.Cids that represent the
+// by Alice), the same order as the list of cid.Cids that represent the
 // proof chain.
 //
 // For both the generated delegation tokens granted to Carol's Persona and

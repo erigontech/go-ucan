@@ -18,7 +18,10 @@ import (
 // that the TokenPayload is a delegation.
 //
 // See: https://github.com/ucan-wg/delegation/tree/v1_ipld#type-tag
-const Tag = "ucan/dlg@1.0.0-rc.1"
+const Tag = "ucan/dlg@1.0.0"
+
+// TagRC1 is the release-candidate tag, still accepted when decoding.
+const TagRC1 = "ucan/dlg@1.0.0-rc.1"
 
 // TODO: update the above Tag URL once the delegation specification is merged.
 
@@ -82,4 +85,8 @@ func (e *tokenPayloadModel) Prototype() schema.TypedPrototype {
 
 func (*tokenPayloadModel) Tag() string {
 	return Tag
+}
+
+func (*tokenPayloadModel) CompatibleTags() []string {
+	return []string{TagRC1}
 }

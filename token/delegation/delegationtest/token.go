@@ -2,7 +2,7 @@ package delegationtest
 
 import (
 	"embed"
-	"path/filepath"
+	"path"
 	"sync"
 
 	"github.com/ipfs/go-cid"
@@ -80,7 +80,7 @@ func loadDelegations() (*DelegationLoader, error) {
 	bundles := make(map[cid.Cid]delegation.Bundle, len(dirEntries))
 
 	for _, dirEntry := range dirEntries {
-		data, err := fs.ReadFile(filepath.Join(TokenDir, dirEntry.Name()))
+		data, err := fs.ReadFile(path.Join(TokenDir, dirEntry.Name()))
 		if err != nil {
 			return nil, err
 		}

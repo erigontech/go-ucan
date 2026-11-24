@@ -39,10 +39,11 @@ type Token struct {
 	// The Command's arguments
 	arguments *args.Args
 	// CIDs of the delegation.Token that prove the chain of authority
-	// They need to form a strictly linear chain, and being ordered starting from the
-	// leaf Delegation (with aud matching the invocation's iss), in a strict sequence
-	// where the iss of the previous Delegation matches the aud of the next Delegation.
+	// They form a strictly linear chain starting from the root Delegation (issued by the Subject), each
+	// Delegation's aud matching the next one's iss, ending with the one whose aud is the invocation's iss.
 	proof []cid.Cid
+	// rc1ProofOrder is set for a decoded 1.0.0-rc.1 invocation, whose proofs run from the leaf back to the root.
+	rc1ProofOrder bool
 	// Arbitrary Metadata
 	meta *meta.Meta
 
@@ -175,6 +176,17 @@ func (t *Token) Arguments() args.ReadOnly {
 // to the root delegation.
 func (t *Token) Proof() []cid.Cid {
 	return t.proof
+}
+
+// ProofRootFirst returns the proof chain from the root delegation to the one issued to the invoker,
+// whichever spec version the invocation was encoded with.
+func (t *Token) ProofRootFirst() []cid.Cid {
+	leafToRoot := t.leafToRoot()
+	out := make([]cid.Cid, len(leafToRoot))
+	for k, j := range leafToRoot {
+		out[len(out)-1-k] = t.proof[j]
+	}
+	return out
 }
 
 // Meta returns the Token's metadata.

@@ -6,7 +6,6 @@ import (
 	"go/format"
 	"os"
 	"path/filepath"
-	"slices"
 	"time"
 
 	"github.com/ipfs/go-cid"
@@ -257,7 +256,7 @@ func (g *generator) writeGoFile() error {
 		Println()
 		Printf("var %s = []cid.Cid{\n", c.name)
 
-		for _, d := range slices.Backward(c.prf) {
+		for _, d := range c.prf {
 			Printf("\t%s,\n", refs[d])
 		}
 

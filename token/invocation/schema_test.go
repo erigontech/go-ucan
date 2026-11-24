@@ -16,7 +16,7 @@ import (
 
 const (
 	issuerPrivKeyCfg = "BeAgktAj8irGgWjp4PGk/fV67e5CcML/KRmmHSldco3etP5lRiuYQ+VVO/39ol3XXruJC8deSuBxoEXzgdYpYw=="
-	newCID           = "zdpuB1NjhETofEUp5iYzoHjSc2KKgZvSoT6FBaLMoVzzsxiR1"
+	newCID           = "zdpuAzGU2e9GnMccnM1b7wXKhbVqF9xWLMcLbAjkDM4ym12y9"
 )
 
 func TestSchemaRoundTrip(t *testing.T) {

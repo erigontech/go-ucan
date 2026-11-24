@@ -29,6 +29,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"slices"
 	"strings"
 
 	"github.com/ipld/go-ipld-prime"
@@ -63,6 +64,9 @@ type Tokener interface {
 	// that should be processed as the token payload while decoding
 	// incoming bytes.
 	Tag() string
+
+	// CompatibleTags are earlier tags of the same token type that are still accepted when decoding.
+	CompatibleTags() []string
 }
 
 // Decode unmarshals the input data using the format specified by the
@@ -127,7 +131,7 @@ func FromIPLD[T Tokener](node datamodel.Node, resolvOpts ...did.ResolutionOption
 		return zero, err
 	}
 
-	if info.Tag != zero.Tag() {
+	if info.Tag != zero.Tag() && !slices.Contains(zero.CompatibleTags(), info.Tag) {
 		return zero, errors.New("data doesn't match the expected type")
 	}
 
@@ -186,7 +190,7 @@ func FromIPLD[T Tokener](node datamodel.Node, resolvOpts ...did.ResolutionOption
 	var data []byte
 
 	switch vsig.PayloadEncoding() {
-	case varsig.PayloadEncodingDAGCBOR:
+	case varsig.PayloadEncodingDAGCBOR, varsig.PayloadEncodingEIP191Cbor:
 		// TODO: can we use the already serialized CBOR data here, instead of encoding again the payload?
 		data, err = ipld.Encode(info.sigPayloadNode, dagcbor.Encode)
 	case varsig.PayloadEncodingDAGJSON:
